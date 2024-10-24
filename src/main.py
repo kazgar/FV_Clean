@@ -8,8 +8,8 @@ def main():
     check_for_dest()
     
     pattern_matches_to_dest_r(USER_ROOT_PATH, REGEX_PATTERN, STORING_DESTINATION)
-
     create_directories_month_year(STORING_DESTINATION)
+    
 
 def pattern_matches_to_dest_r(path, pattern, destination):
     if os.path.isdir(path):
@@ -33,9 +33,12 @@ def create_directories_month_year(path):
                 dates[year] = [{month: path+file}]
             elif month not in dates[year]:
                 dates[year].append({month: path+file})
-    for year in dates.keys():
-        os.mkdir(path+year)
 
+    for year in dates.keys():
+        if not os.path.isfile(path+year):
+            os.mkdir(path+year)
+        
+            
                 
                     
         
