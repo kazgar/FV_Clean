@@ -5,14 +5,11 @@ from SETUP import *
 
 def main():
     check_for_valid_paths()
-    
-    if not os.path.isdir(STORING_DESTINATION):
-        try:
-            os.mkdir(STORING_DESTINATION)
-        except:
-            raise ValueError("STORING_DESTINATION is invalid")
+    check_for_dest()
     
     pattern_matches_to_dest_r(USER_ROOT_PATH, REGEX_PATTERN, STORING_DESTINATION)
+
+
     
 
 def pattern_matches_to_dest_r(path, pattern, destination):
@@ -21,8 +18,14 @@ def pattern_matches_to_dest_r(path, pattern, destination):
             pattern_matches_to_dest_r(path=f"{path}/{file}", pattern=pattern, destination=destination)    
     elif os.path.isfile(path):
         if pattern.match(os.path.split(path)[1]):
-            shutil.move(path, destination)
-    
+            try:
+                shutil.move(path, destination)
+            except:
+                pass
+
+def create_directories_month_year(path):
+    return
+
     
 
 if __name__ == "__main__":
