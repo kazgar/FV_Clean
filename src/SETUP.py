@@ -15,4 +15,6 @@ def check_for_dest():
             os.mkdir(STORING_DESTINATION)
         except:
             raise ValueError("STORING_DESTINATION is invalid")
+        
+
     

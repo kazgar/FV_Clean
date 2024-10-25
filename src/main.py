@@ -3,6 +3,8 @@ import shutil
 import re
 from SETUP import *
 from file_n_files import File, Files
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
 
 def main():
     check_for_valid_paths()
@@ -12,6 +14,20 @@ def main():
     files = convert_files_to_file_class(STORING_DESTINATION)
     create_directories(STORING_DESTINATION, files)
     
+    creds = service_account.Credentials.from_service_account_file(
+        "/Users/kazikgarstecki/Desktop/workspace/github.com/kazgar/RegEx_Disc_CleanUp/regexdisccleanup-e1eddbacc9ee.json", 
+        scopes=['https://www.googleapis.com/auth/drive']
+        )
+    drive_service = build("drive", "v3", credentials=creds)
+    
+    folder_metadata = {
+        "name": "FV",
+    }
+    try:
+        drive_service.files().create(body=folder_metadata, fields='id').execute()
+    except Exception as e:
+        raise Exception("Exception occured:", e)
+
 
 def pattern_matches_to_dest_r(path, pattern, destination):
     if os.path.isdir(path):
