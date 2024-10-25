@@ -1,7 +1,7 @@
 import os
 import re
 
-USER_ROOT_PATH = "/Users/kazikgarstecki/Desktop"
+USER_ROOT_PATH = "/Users/kazikgarstecki/Desktop/test_dir"
 STORING_DESTINATION = "/Users/kazikgarstecki/Desktop/FV_folder/"
 REGEX_PATTERN = re.compile(r"^(FV_|fv_).*(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})\.(pdf|docx)$")
 
