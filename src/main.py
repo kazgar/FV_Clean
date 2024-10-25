@@ -10,7 +10,7 @@ def main():
     
     pattern_matches_to_dest_r(USER_ROOT_PATH, REGEX_PATTERN, STORING_DESTINATION)
     files = convert_files_to_file_class(STORING_DESTINATION)
-
+    create_directories(STORING_DESTINATION, files)
     
 
 def pattern_matches_to_dest_r(path, pattern, destination):
@@ -34,6 +34,23 @@ def convert_files_to_file_class(path):
             file = File(path+file, year, month)
             files.add_file(file)
     return files
+
+def create_directories(path, files):
+    for year in sorted(files._years, reverse=True):
+        files_from_year = files.files_from_year(year)
+        if not os.path.isdir(path+year):
+            os.mkdir(path+year)
+        for file in files_from_year:
+            month = file._month
+            if not os.path.isdir(path+year+f"/{month}-{year}"):
+                os.mkdir(path+year+f"/{month}-{year}")
+            shutil.move(file._path, path+year+f"/{month}-{year}")
+            
+
+            
+
+
+        
                                                                    
 
 if __name__ == "__main__":
