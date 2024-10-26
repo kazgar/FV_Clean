@@ -1,10 +1,10 @@
 import os
 import shutil
 import re
+import pickle
 from SETUP import *
+from google_drive import *
 from file_n_files import File, Files
-from googleapiclient.discovery import build
-from google.oauth2 import service_account
 
 def main():
     check_for_valid_paths()
@@ -14,20 +14,7 @@ def main():
     files = convert_files_to_file_class(STORING_DESTINATION)
     create_directories(STORING_DESTINATION, files)
     
-    creds = service_account.Credentials.from_service_account_file(
-        "/Users/kazikgarstecki/Desktop/workspace/github.com/kazgar/RegEx_Disc_CleanUp/regexdisccleanup-e1eddbacc9ee.json", 
-        scopes=['https://www.googleapis.com/auth/drive']
-        )
-    drive_service = build("drive", "v3", credentials=creds)
-    
-    folder_metadata = {
-        "name": "FV",
-    }
-    try:
-        drive_service.files().create(body=folder_metadata, fields='id').execute()
-    except Exception as e:
-        raise Exception("Exception occured:", e)
-
+    create_google_directories(files)
 
 def pattern_matches_to_dest_r(path, pattern, destination):
     if os.path.isdir(path):
@@ -61,13 +48,25 @@ def create_directories(path, files):
             if not os.path.isdir(path+year+f"/{month}-{year}"):
                 os.mkdir(path+year+f"/{month}-{year}")
             shutil.move(file._path, path+year+f"/{month}-{year}")
+
+
+def create_google_directories(files):
+    if not drive_folder_exists(DRIVE_ROOT_FOLDER_NAME):
+        id_root_folder = create_drive_folder(DRIVE_ROOT_FOLDER_NAME)
+    else:
+        id_root_folder =  get_drive_folder_id(DRIVE_ROOT_FOLDER_NAME)
+    for year in sorted(files._years, reverse=True):
+        files_from_year = files.files_from_year(year)
+        if not drive_folder_exists(f"FV_{year}", id_root_folder):
+            year_folder_id = create_drive_folder(f"FV_{year}", id_root_folder)
+        else:
+            year_folder_id = get_drive_folder_id(f"FV_{year}", id_root_folder)
+        for file in files_from_year:
+            month = file._month
+            if not drive_folder_exists(f"{month}-{year}", year_folder_id):
+                create_drive_folder(f"{month}-{year}", year_folder_id)
             
-
-            
-
-
-        
-                                                                   
+                                                                     
 
 if __name__ == "__main__":
     main()
