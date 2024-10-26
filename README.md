@@ -3,6 +3,7 @@ RegEx Disc CleanUp is a python scrip that can be used for looking for files that
 
 ## Installation
 Use the package manager pip/pipx to install necessary packages.
-'''bash
+```bash
 pip install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
-'''
+```
+
