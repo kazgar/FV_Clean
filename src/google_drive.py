@@ -2,6 +2,8 @@ import os
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
+from googleapiclient.http import MediaFileUpload
+
 import pickle
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -64,4 +66,20 @@ def drive_folder_exists(folder_name, parent_folder_id=None, delete=False):
     if is_folder:
         return True
     return False
+
+def upload_file_2_drive(filepath, parent_folder_id=None):
+    filename = os.path.basename(filepath)
+    file_metadata = {
+        "name": filename,
+        "parents": [parent_folder_id] if parent_folder_id else []
+    }
+    media = MediaFileUpload(filepath, resumable=True)
+    uploaded_file = drive_service.files().create(
+        body=file_metadata,
+        media_body=media,
+        fields="id"
+    ).execute()
+    print(f"Uploaded file {uploaded_file["id"]}")
+    return uploaded_file["id"]
+
 
