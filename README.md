@@ -2,7 +2,7 @@
 RegEx Disc CleanUp is a python scrip that can be used for looking for files that match a regex pattern, sorting them in a directory based on the date, and creating a backup of those files in respective directories on your google drive. I'm using this script to take care of my Invoice, but it can be really used for anything that you can think of. 
 
 ## How it works
-It looks for the files that match a specific RegEx pattern. Collects them and checks for dates inside the name of the files. It creates root_folde>year>month>files_from_that_month structure on your disc as well as on your google drive so that you have a backup of your important files.
+It looks for the files that match a specific RegEx pattern. Collects them and checks for dates inside the name of the files. It creates root_folder>year>month>files_from_that_month structure on your disc as well as on your google drive so that you have a backup of your important files.
 
 ## Installation
 Use the package manager pip/pipx to install necessary packages.
