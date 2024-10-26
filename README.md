@@ -7,7 +7,7 @@ Use the package manager pip/pipx to install necessary packages.
 pip install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 ```
 
-## Setup
+## Setup global variables
 ```python
 # path to the destination in which you want the script to look for the files
 USER_ROOT_PATH = "/path/to/destination/to/look"
@@ -20,3 +20,11 @@ REGEX_PATTERN = re.compile("<regex pattern>")
 
 # name of the root folder for your google drive
 DRIVE_ROOT_FOLDER_NAME = "name"
+```
+
+## Setup google drive oauth
+You need to download a json file from google cloud console with your oauth api key. Put the file in the project directory and rename it to "client_credentials.json". When using the app for the first time, you will be redirected to authorize the app to make changes on your google drive. Once you authorize it, you are all set.
+
+## Adjusting
+On a side note, if you want to tailor this app for your own needs, make sure to change the names of the files that you upload and folders that you create. They are set to work with "FV_name_of_the_file_dd-mm-yyyy.pdf" or "FV_name_of_the_file_dd-mm-yyyy.docx". In order to make the app work correctly, for different use case - change the RegEx pattern and tailor functions in main.py.
+

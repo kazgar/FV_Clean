@@ -3,19 +3,15 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from googleapiclient.http import MediaFileUpload
-
 import pickle
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = "/Users/kazikgarstecki/Desktop/workspace/github.com/kazgar/RegEx_Disc_CleanUp/client_secret_1032437957259-4djbvrctrav24l1o306dtip4ae2s14rg.apps.googleusercontent.com.json"
 
 def authenticate_user():
     creds = None
-    # Load existing credentials from a pickle file if available
     if os.path.exists("token.pickle"):
         with open("token.pickle", "rb") as token:
             creds = pickle.load(token)
-    # If no valid credentials are available, prompt the user to log in
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -24,7 +20,6 @@ def authenticate_user():
                 "./client_credentials.json", SCOPES
             )
             creds = flow.run_local_server(port=0)
-        # Save the credentials for future use
         with open("token.pickle", "wb") as token:
             pickle.dump(creds, token)
     return creds
